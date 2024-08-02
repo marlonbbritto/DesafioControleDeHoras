@@ -1,4 +1,10 @@
+
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Configuração da conexão com o banco de dados
+
 
 // Add services to the container.
 
