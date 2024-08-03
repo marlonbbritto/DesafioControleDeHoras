@@ -16,5 +16,12 @@ namespace DesafioControleDeHoras.Controllers
             Console.WriteLine(employee.Name);
             Console.WriteLine(employee.BornDate);
         }
+
+        [HttpGet]
+
+        public IEnumerable<Employee> GetEmployees()
+        {
+            return employees;
+        }
     }
 }
