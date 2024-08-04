@@ -1,7 +1,10 @@
 
+using DesafioControleDeHoras.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("EmployeesConection");
+builder.Services.AddDbContext<EmployeeContext>(opts=>opts.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString)));
 
 // Configuração da conexão com o banco de dados
 
@@ -12,6 +15,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+
 
 var app = builder.Build();
 
