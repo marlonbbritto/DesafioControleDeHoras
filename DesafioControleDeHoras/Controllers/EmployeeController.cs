@@ -27,9 +27,11 @@ namespace DesafioControleDeHoras.Controllers
             return employees;
         }
         [HttpGet("{id}")]
-        public Employee? GetEmployeeById(int id) 
+        public IActionResult GetEmployeeById(int id) 
         { 
-            return employees.FirstOrDefault(employee => employee.Id == id);
+            var employee = employees.FirstOrDefault(employee => employee.Id == id);
+            if (employee == null) return NotFound();
+            return Ok(employee);
         }
     }
 }
