@@ -12,12 +12,11 @@ namespace DesafioControleDeHoras.Controllers
         private static List<Employee> employees = new List<Employee>();
         private static int id = 0;
         [HttpPost]
-        public void AddEmployee([FromBody] Employee employee) 
+        public IActionResult AddEmployee([FromBody] Employee employee) 
         { 
             employee.Id = id++;
             employees.Add(employee);
-            Console.WriteLine(employee.Name);
-            Console.WriteLine(employee.BornDate);
+            return CreatedAtAction(nameof(GetEmployeeById), new { id = employee.Id },employee);
         }
 
         [HttpGet]
