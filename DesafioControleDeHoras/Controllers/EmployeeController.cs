@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DesafioControleDeHoras.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace DesafioControleDeHoras.Controllers   
 {
@@ -9,9 +10,11 @@ namespace DesafioControleDeHoras.Controllers
     public class EmployeeController : ControllerBase
     {
         private static List<Employee> employees = new List<Employee>();
+        private static int id = 0;
         [HttpPost]
         public void AddEmployee([FromBody] Employee employee) 
         { 
+            employee.Id = id++;
             employees.Add(employee);
             Console.WriteLine(employee.Name);
             Console.WriteLine(employee.BornDate);
@@ -22,6 +25,11 @@ namespace DesafioControleDeHoras.Controllers
         public IEnumerable<Employee> GetEmployees()
         {
             return employees;
+        }
+        [HttpGet("{id}")]
+        public Employee? GetEmployeeById(int id) 
+        { 
+            return employees.FirstOrDefault(employee => employee.Id == id);
         }
     }
 }
