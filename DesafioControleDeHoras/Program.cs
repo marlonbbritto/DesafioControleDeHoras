@@ -3,7 +3,7 @@ using DesafioControleDeHoras.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("EmployeesConection");
+var connectionString = builder.Configuration.GetConnectionString("EmployeeConnection");
 builder.Services.AddDbContext<EmployeeContext>(opts=>opts.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString)));
 
 // Configuração da conexão com o banco de dados
