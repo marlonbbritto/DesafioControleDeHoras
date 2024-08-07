@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DesafioControleDeHoras.Data;
+using DesafioControleDeHoras.Data.Dtos;
 using DesafioControleDeHoras.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -11,15 +12,18 @@ namespace DesafioControleDeHoras.Controllers
     public class EmployeeController : ControllerBase
     {
         private EmployeeContext _context;
+        private IMapper _mapper;
 
-        public EmployeeController(EmployeeContext context)
+        public EmployeeController(EmployeeContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpPost]
-        public IActionResult AddEmployee([FromBody] Employee employee) 
+        public IActionResult AddEmployee([FromBody] CreateEmployeeDto employeeDto) 
         { 
+            Employee employee = _mapper.Map<Employee>(employeeDto);
             _context.Employees.Add(employee);
             _context.SaveChanges();
             return CreatedAtAction(nameof(GetEmployeeById), new { id = employee.Id },employee);
