@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DesafioControleDeHoras.Data;
 using DesafioControleDeHoras.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -9,13 +10,18 @@ namespace DesafioControleDeHoras.Controllers
     [Route("[controller]")]
     public class EmployeeController : ControllerBase
     {
-        private static List<Employee> employees = new List<Employee>();
-        private static int id = 0;
+        private EmployeeContext _context;
+
+        public EmployeeController(EmployeeContext context)
+        {
+            _context = context;
+        }
+
         [HttpPost]
         public IActionResult AddEmployee([FromBody] Employee employee) 
         { 
-            employee.Id = id++;
-            employees.Add(employee);
+            _context.Employees.Add(employee);
+            _context.SaveChanges();
             return CreatedAtAction(nameof(GetEmployeeById), new { id = employee.Id },employee);
         }
 
@@ -23,12 +29,12 @@ namespace DesafioControleDeHoras.Controllers
 
         public IEnumerable<Employee> GetEmployees()
         {
-            return employees;
+            return _context.Employees;
         }
         [HttpGet("{id}")]
         public IActionResult GetEmployeeById(int id) 
         { 
-            var employee = employees.FirstOrDefault(employee => employee.Id == id);
+            var employee = _context.Employees.FirstOrDefault(employee => employee.Id == id);
             if (employee == null) return NotFound();
             return Ok(employee);
         }
